@@ -1,0 +1,9 @@
+frontend/node_modules
+backend/pyvenv.cfg
+backend/include
+backend/lib64
+backend/share
+backend/lib
+backend/bin
+
+
