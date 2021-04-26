@@ -6,16 +6,14 @@ from flask_jwt_extended import get_jwt, get_jwt_identity, jwt_required
 from app.models import User
 from .auth_service_schema import schema
 
-
 auth_service_blueprint = Blueprint('auth_service_blueprint', __name__)
-
 
 @auth_service_blueprint.route("/login", methods = ["POST"])
 def login():
     username = request.json["username"]
     password = request.json["password"]
     user = User.query.filter_by(username = username).first()
-
+    
     if (user != None):
         auth, details = user.authenticate(password)
         if (auth != False):
@@ -24,8 +22,7 @@ def login():
 
 
 
-
-@auth_service_blueprint.route("/register", methods = ["POST"])
+@auth_service_blueprint.route("/register", methods = ["post"])
 def register():
     username = request.json["username"]
     password = request.json["password"]

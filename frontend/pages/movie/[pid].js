@@ -4,21 +4,20 @@ import { Grid, Image, Segment, Header, Card } from 'semantic-ui-react';
 
 //make a dynamic route
 const Movie = (props) => {
-    const router = useRouter()
-    const { pid } = router.query
+    const router = useRouter();
+    const { pid } = router.query; //dynamic router id, function scope - handle use cases in potentially multiple useEffects
 
-    const [movieDetails, setMovieDetails] = useState(null);
-    const [actors, setActors] = useState([]);
-    const [actorsDetailed, setActorsDetailed] = useState([]);
+    const [movieDetails, setMovieDetails] = useState(null); //movieDetails contains the generic movieDetails
+    const [actors, setActors] = useState([]); //actors we get from movieDetails - used to query more specific actor details
+    const [actorsDetailed, setActorsDetailed] = useState([]); //actorsDetailed is the specific API request to get specific actor data catered to our needs
     
-    useEffect(() => {
-      console.log(actorsDetailed);
-    }, [actorsDetailed])
-
+    //fetch API to get actorsDetailed data - using Promise.all to wait for each actor to be queryed so we populate all before sending it off to the view
     useEffect(() => {
       async function handler() {
         let fetchCast = actors.map(actor => fetch(`https://api.themoviedb.org/3/person/${actor.key}?api_key=454a5f6a555d21549c86c51fa91f0a1a`).then(resp => resp.json()).then(data =>  {
-          return {key: data.id, name : data.name, img : "https://image.tmdb.org/t/p/original/" + data.profile_path} }));
+          return {key: data.id, name : data.name, img : "https://image.tmdb.org/t/p/original/" + data.profile_path} 
+        }));
+
         const results = await Promise.all(fetchCast);
         setActorsDetailed(results);
       }
@@ -26,7 +25,7 @@ const Movie = (props) => {
       handler();
     }, [actors]);
     
- 
+    //fetch movieDetails from API and setup 'actors' data which will later be used to populate actorsDetailed
     useEffect(() => {
       //gets movie data
       fetch(`https://api.themoviedb.org/3/movie/${pid}?api_key=454a5f6a555d21549c86c51fa91f0a1a`)
@@ -43,6 +42,10 @@ const Movie = (props) => {
         }).catch(err => console.log(err));
       
       }, [pid])
+
+
+
+
 
   return (
     <Grid columns={2}>
@@ -70,7 +73,11 @@ const Movie = (props) => {
             {/* //Cards */}
             <Grid.Row>
               <Card.Group itemsPerRow={6}>
-                {actorsDetailed ?  actorsDetailed.map(actor => <Card image = {actor.img} header = {actor.name} fluid/>) : null }
+                {actorsDetailed ?  actorsDetailed.map(actor => 
+                <Card fluid image = {actor.img} header = {actor.name}/>
+                
+            
+                ) : null }
               </Card.Group>
             </Grid.Row>
           
@@ -84,7 +91,7 @@ const Movie = (props) => {
 
 
 
-    {/* //Right Side */}
+    {/* //Right Column - Movie Poster */}
       <Grid.Column width = {5}>
           {movieDetails ? <Image src = {"https://image.tmdb.org/t/p/original/" + movieDetails.poster} fluid/> : null}
       </Grid.Column>

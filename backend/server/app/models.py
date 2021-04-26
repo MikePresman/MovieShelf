@@ -24,7 +24,6 @@ class User(db.Model):
     last_logged_in = db.Column(db.String(16))
     password_hash = db.Column(db.String(128))
 
-
     @classmethod
     def authenticate(self, password):
         if (check_password_hash(self.password_hash, password) == True):
