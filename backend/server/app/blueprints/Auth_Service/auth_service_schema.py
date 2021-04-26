@@ -1,7 +1,9 @@
-schema = {
+register_schema = {
     "type" : "object",
         "properties" : {
-        "price" : {"type" : "number"},
-        "name" : {"type" : "string"},
+            "username" : {"type" : "string"},
+            "email" : {"type" : "string"},
+            "password" : {"type" : "string"},
+            "confirmPassword" : {"type" : "string"},
         },
 }
