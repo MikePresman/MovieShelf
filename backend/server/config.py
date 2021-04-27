@@ -1,6 +1,6 @@
 import os
+from datetime import timedelta
 basedir = os.path.abspath(os.path.dirname(__file__))
-
 
 class Config(object):
 	SECRET_KEY = os.environ.get('SECRET_KEY') or os.urandom(16)
@@ -14,4 +14,4 @@ class Config(object):
 	MAIL_USERNAME = ''
 	MAIL_PASSWORD = ''
 	JWT_SECRET_KEY = "super_secret"
-	JWT_TOKEN_LOCATION = 'cookies'
+	JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=1)

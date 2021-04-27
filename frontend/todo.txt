@@ -1,1 +1,3 @@
 formik for registration validation
+
+jsonschema is garbage, only verifies types and not keys or extra keys, what a joke

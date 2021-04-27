@@ -7,24 +7,31 @@ const Navigator = () => {
     const router = useRouter()
     const [activeItem, setActiveItem] = useState('Home');
     const [result, setResult] = useState([]);
-    
+
+
+    //this useEffect handles the naming of which url we are on corresponding to what will be highlighted on the navbar
+    useEffect(() => {
+        setActiveItem(router.pathname.substring(1,router.pathname.length));
+    }, [router.pathname])
 
     const handleItemClick = (event) => {
-      setActiveItem(event.target.text)
-      switch (event.target.text) {
-        case "Home":
-          router.push("/");
-          break;
-        case "Messages":
-          break;
-        case "Friends":
-          break;
-        default:
-          break;
-      }
+        switch (event.target.text) {
+            case "Home":
+                router.push("/");
+                break;
+            case "Messages":
+                break;
+            case "Friends":
+                break;
+            case "Login":
+                router.push("/login");
+                break;
+            default:
+                break;
+        }
     };
 
-   
+
 
 
     const handleSearch = (event) => {
@@ -50,52 +57,52 @@ const Navigator = () => {
 
 
     function handleRedirect(event){
-      router.push("/movie/" + event.result.key);
+        router.push("/movie/" + event.result.key);
     }
 
-    
+
 
 
     return (
         <div>
-        <Menu pointing secondary>
-            
-            <Menu.Item>
-                <Header color = "teal" as='h3'>MovieShelf</Header>
-            </Menu.Item>
+            <Menu pointing secondary>
 
-          <Menu.Item
-            name='home'
-            active={activeItem === 'Home'}
-            onClick={handleItemClick}
+                <Menu.Item>
+                    <Header color = "teal" as='h3'>MovieShelf</Header>
+                </Menu.Item>
 
-          />
-          <Menu.Item
-            name='messages'
-            active={activeItem === 'Messages'}
-            onClick={handleItemClick}
-          />
-          <Menu.Item
-            name='friends'
-            active={activeItem === 'Friends'}
-            onClick={handleItemClick}
-          />
+                <Menu.Item
+                    name='home'
+                    active={activeItem === ''}
+                    onClick={handleItemClick}
+
+                />
+                <Menu.Item
+                    name='messages'
+                    active={activeItem === 'Messages'}
+                    onClick={handleItemClick}
+                />
+                <Menu.Item
+                    name='friends'
+                    active={activeItem === 'Friends'}
+                    onClick={handleItemClick}
+                />
 
 
-          <Menu.Menu position='right'>  
-            <Search className = {styles.search} loading = {false} onSearchChange = {handleSearch} results = {result} onResultSelect={(e, data) => handleRedirect(data)}/>
-            <Menu.Item
-              name='logout'
-              active={activeItem === 'Logout'}
-              onClick={handleItemClick}
-            />
-          </Menu.Menu>
-
-       
+                <Menu.Menu position='right'>  
+                    <Search className = {styles.search} loading = {false} onSearchChange = {handleSearch} results = {result} onResultSelect={(e, data) => handleRedirect(data)}/>
+                    <Menu.Item
+                        name='Login'
+                        active={activeItem === 'login'}
+                        onClick={handleItemClick}
+                    />
+                </Menu.Menu>
 
 
 
-        </Menu>
+
+
+            </Menu>
         </div>
     );
 }

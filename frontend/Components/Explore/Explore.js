@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Grid, Image } from 'semantic-ui-react'
-
+import {localStorageService} from '../../Services/AxiosManager';
 
 const Explore = () => {
     const [top5, setTop5] = useState([]);
 
+    
     //load top 10 books
     useEffect(() => {
         let top5Movies = [];

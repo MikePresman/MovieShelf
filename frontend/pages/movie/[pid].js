@@ -74,7 +74,7 @@ const Movie = (props) => {
             <Grid.Row>
               <Card.Group itemsPerRow={6}>
                 {actorsDetailed ?  actorsDetailed.map(actor => 
-                <Card fluid image = {actor.img} header = {actor.name}/>
+                <Card key = {actor.key} fluid image = {actor.img} header = {actor.name}/>
                 
             
                 ) : null }

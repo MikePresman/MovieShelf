@@ -1,9 +1,6 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import (create_access_token,
-                                create_refresh_token,
-                                jwt_required,
-                                set_access_cookies,
-                                unset_jwt_cookies)
+                                create_refresh_token)
 
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -23,7 +20,6 @@ class User(db.Model):
     last_logged_in = db.Column(db.String(16))
     password_hash = db.Column(db.String(128))
 
-    @classmethod
     def authenticate(self, password):
         if (check_password_hash(self.password_hash, password) == True):
                 access_token = create_access_token(identity=self.password_hash)

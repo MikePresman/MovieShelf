@@ -7,3 +7,14 @@ register_schema = {
             "confirmPassword" : {"type" : "string"},
         },
 }
+
+login_schema = {
+     "type" : "object",
+        "properties" : {
+            "username" : {"type" : "string"},
+            "password" : {"type" : "string"},
+        },
+}
+
+
+#jsonschema is an absolute joke lol. Doesn't do anything. fuck off
