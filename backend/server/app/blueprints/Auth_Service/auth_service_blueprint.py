@@ -76,14 +76,11 @@ def token():
 @auth_service_blueprint.route("/getkey", methods = ["POST"])
 @jwt_required()
 def protected():
-    claims = get_jwt_identity()
-    claims_2 = get_jwt()
-    print(get_jwt())
-    print(claims)
     return {"ok": 1}
 
 
 
-@auth_service_blueprint.route("/test", methods=["GET"])
+@auth_service_blueprint.route("/test", methods=["POST"])
+@jwt_required()
 def test():
-    return schema
+    return {"ok": get_jwt_identity()}

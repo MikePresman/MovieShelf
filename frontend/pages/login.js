@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Divider, Form, Grid, Segment } from 'semantic-ui-react'
 import { useRouter } from 'next/router';
 import {localStorageService} from '../Services/AxiosManager';
-import axios from "axios";
+import api from '../Services/AxiosManager'
 
 const login = () => {
     const router = useRouter();
@@ -10,7 +10,7 @@ const login = () => {
     const [formData, setFormData] = useState({username: '', password: ''});
 
     const handleLogin = () => {
-        axios.post('/login', formData).then(resp => {
+        api.post('/login', formData).then(resp => {
             console.log(resp)
             localStorageService.setToken({access_token: resp.data.access_token, refresh_token: resp.data.refresh_token});
             router.push('/');

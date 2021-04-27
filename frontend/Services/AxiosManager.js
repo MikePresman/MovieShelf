@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
-axios.defaults.baseURL = 'http://localhost:5000';
+
 
 //This is a LocalStorageService
 const LocalStorageService = (() => {
@@ -46,10 +46,17 @@ const LocalStorageService = (() => {
 export const localStorageService = LocalStorageService.getService(); //new 'instance', wtf is javascript
 
 
+
+
+let instance = axios.create({
+    baseURL:'http://localhost:5000'
+  })
+
+
 //Will pass Bearer token before every API Request
-axios.interceptors.request.use(
+instance.interceptors.request.use(
     config => {
-        const token = localStorageService.getAccessToken();
+        const token = localStorageService.getAccessToken()
         if (token) {
             config.headers['Authorization'] = 'Bearer ' + token;
         }
@@ -63,3 +70,14 @@ axios.interceptors.request.use(
 
 //the idea is that we try to make a request, if the response fails because access token expired, so we make a request to /token which gets a new access and refresh token
 //we set up those new refresh and access tokens, and we move on
+
+
+
+
+
+
+
+
+
+
+export default instance;
