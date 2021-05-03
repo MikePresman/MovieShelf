@@ -1,5 +1,7 @@
 import axios from 'axios';
-import { useRouter } from 'next/router';
+
+import Router from 'next/router';
+
 
 
 
@@ -53,7 +55,9 @@ let instance = axios.create({baseURL: 'http://localhost:5000'})
 //Will pass Bearer token before every API Request
 instance.interceptors.request.use(
     config => {
-        const token = localStorageService.getAccessToken()
+        const token = localStorageService.getAccessToken();
+      
+
         if (token) {
             config.headers['Authorization'] = 'Bearer ' + token;
         }
@@ -67,19 +71,22 @@ instance.interceptors.request.use(
 
 //the idea is that we try to make a request, if the response fails because access token expired, so we make a request to /token which gets a new access and refresh token
 //we set up those new refresh and access tokens, and we move on
-
-//CAN'T FIGURE THIS OUT YET, maybe backend issue
 instance.interceptors.response.use((response) => {
     return response
  }, function (error) {
     const originalRequest = error.config;
+    console.log("Called");
+
+    if (error.response.status === 422){
+        return Promise.reject(error)
+    }
+
     
     if (error.response.status === 401 && originalRequest.url === 'http://localhost:5000/token') {
         return Promise.reject(error);
     }
  
     if (error.response.status === 401 && !originalRequest._retry) {
-        console.log("here 1");
         originalRequest._retry = true;
         const refreshToken = localStorageService.getRefreshToken();
         return fetch("http://localhost:5000/token", {method: 'POST', headers: {Authorization: 'Bearer ' + refreshToken}}).then(resp => resp.json()).then(data => {

@@ -1,19 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Button, Divider, Form, Grid, Segment } from 'semantic-ui-react'
 import { useRouter } from 'next/router';
 import {localStorageService} from '../Services/AxiosManager';
-import api from '../Services/AxiosManager'
+import api from '../Services/AxiosManager';
+
+
+import UserContext from '../Components/Contexts/UserContext';
 
 
 const login = () => {
     const router = useRouter();
-
     const [formData, setFormData] = useState({username: '', password: ''});
+
+    const { signIn } = useContext(UserContext);
 
     const handleLogin = () => {
         api.post('/login', formData).then(resp => {
             console.log(resp)
             localStorageService.setToken({access_token: resp.data.access_token, refresh_token: resp.data.refresh_token});
+            signIn(resp.data.username, resp.data.id);
             router.push('/');
         }, error => console.log(error));
     }

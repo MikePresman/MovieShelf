@@ -26,6 +26,7 @@ class User(db.Model):
                 refresh_token = create_refresh_token(identity=self.password_hash)
                 return (True, {
                     'username': self.username,
+                    'id': self.id,
                     'access_token': access_token,
                     'refresh_token': refresh_token
                 })
