@@ -12,13 +12,13 @@ const login = () => {
     const router = useRouter();
     const [formData, setFormData] = useState({username: '', password: ''});
 
-    const { signIn } = useContext(UserContext);
 
     const handleLogin = () => {
         api.post('/login', formData).then(resp => {
             console.log(resp)
             localStorageService.setToken({access_token: resp.data.access_token, refresh_token: resp.data.refresh_token});
-            signIn(resp.data.username, resp.data.id);
+            localStorage.setItem("username", resp.data.username);
+            localStorage.setItem("user_id", resp.data.id);
             router.push('/');
         }, error => console.log(error));
     }

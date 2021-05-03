@@ -7,10 +7,17 @@ import { useEffect, useState } from 'react';
 function MyApp({ Component, pageProps }) {
   const [user, setUser] = useState(undefined);
 
+  //we set contextAPI data here to avoid flushing it on new requests
+  useEffect(() => {
+      setUser({username: localStorage.getItem("username"), id: localStorage.getItem("user_id")});
+  },[])
+
+  //effectively useless, since we use the above method but we'll keep it cause why not
   const signIn = (username, id) => {
     setUser({[username]: username, [id]: id})
   }
   
+  //needs to be called on signout for HOC withAuth
   const signOut = () => {
     setUser(undefined); 
   }
@@ -18,7 +25,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-    <UserContext.Provider value = {{user:user, signIn: signIn}}>
+    <UserContext.Provider value = {{user:user, signIn: signIn, signOut: signOut}}>
         <Navigator/>
         <Component {...pageProps} />
     </UserContext.Provider>

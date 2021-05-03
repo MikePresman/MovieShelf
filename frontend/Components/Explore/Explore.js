@@ -6,13 +6,15 @@ import UserContext from '../Contexts/UserContext';
 
 const Explore = () => {
     const [top5, setTop5] = useState([]);
-    const {user, id} = useContext(UserContext);
+    const {user} = useContext(UserContext);
 
 
     //this gets the context data - just as a test, we will extend this to a HOC
     useEffect(() => {
         console.log(user);
     },[])
+
+    
 
 
     //load top 10 books
