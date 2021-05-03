@@ -1,3 +1,6 @@
 formik for registration validation
 
-jsonschema is garbage, only verifies types and not keys or extra keys, what a joke
+
+
+1. Interceptors for refresh token
+2. contextapi for user info

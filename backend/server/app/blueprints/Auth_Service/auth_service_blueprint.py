@@ -6,7 +6,7 @@ from .auth_service_schema import register_schema, login_schema
 from flask_jwt_extended import (create_access_token,
                                 create_refresh_token, get_jwt_identity, jwt_required, get_jwt)
 
-
+from datetime import datetime, timedelta
 auth_service_blueprint = Blueprint('auth_service_blueprint', __name__)
 
 @auth_service_blueprint.route("/login", methods = ["POST"])
@@ -17,7 +17,6 @@ def login():
             raise Exception
     except Exception as e:
         return {"Error": "Please Enter Valid Data"}, 400
-
     username = request.json["username"]
     password = request.json["password"]
     
@@ -68,10 +67,7 @@ def token():
     identity = get_jwt_identity()
     access_token = create_access_token(identity=identity)
     refresh_token = create_refresh_token(identity=identity)
-    return {'access_token': access_token, 'refresh_token': refresh_token}
-
-
-
+    return {'access_token': access_token, 'refresh_token': refresh_token}, 201
 
 @auth_service_blueprint.route("/getkey", methods = ["POST"])
 @jwt_required()

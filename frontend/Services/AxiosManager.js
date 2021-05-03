@@ -40,17 +40,14 @@ const LocalStorageService = (() => {
         getRefreshToken : _getRefreshToken,
         clearToken : _clearToken
     }
+    
 })();
 
 
 export const localStorageService = LocalStorageService.getService(); //new 'instance', wtf is javascript
 
 
-
-
-let instance = axios.create({
-    baseURL:'http://localhost:5000'
-  })
+let instance = axios.create({baseURL: 'http://localhost:5000'})
 
 
 //Will pass Bearer token before every API Request
@@ -71,13 +68,28 @@ instance.interceptors.request.use(
 //the idea is that we try to make a request, if the response fails because access token expired, so we make a request to /token which gets a new access and refresh token
 //we set up those new refresh and access tokens, and we move on
 
-
-
-
-
-
-
-
+//CAN'T FIGURE THIS OUT YET, maybe backend issue
+instance.interceptors.response.use((response) => {
+    return response
+ }, function (error) {
+    const originalRequest = error.config;
+    
+    if (error.response.status === 401 && originalRequest.url === 'http://localhost:5000/token') {
+        return Promise.reject(error);
+    }
+ 
+    if (error.response.status === 401 && !originalRequest._retry) {
+        console.log("here 1");
+        originalRequest._retry = true;
+        const refreshToken = localStorageService.getRefreshToken();
+        return fetch("http://localhost:5000/token", {method: 'POST', headers: {Authorization: 'Bearer ' + refreshToken}}).then(resp => resp.json()).then(data => {
+            localStorageService.setToken(data);
+            return instance(originalRequest); //finish handling original stuff
+        });
+    }
+    return Promise.reject(error);
+ });
 
 
 export default instance;
+

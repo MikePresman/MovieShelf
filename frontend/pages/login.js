@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import {localStorageService} from '../Services/AxiosManager';
 import api from '../Services/AxiosManager'
 
+
 const login = () => {
     const router = useRouter();
 
@@ -34,7 +35,7 @@ const login = () => {
 
 
     return (
-        <Segment placeholder style = {{"margin": "0px"}}>
+        <Segment placeholder style = {{"margin": "0px", "height": "96vh"}}>
             <Grid columns={1} relaxed='very' stackable>
                 <Grid.Column>
                     <Form onSubmit = {handleLogin}>
