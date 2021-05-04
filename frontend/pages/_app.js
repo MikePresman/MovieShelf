@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 
 function MyApp({ Component, pageProps }) {
   const [user, setUser] = useState(undefined);
+  const [message, setMessage] = useState();
 
   //we set contextAPI data here to avoid flushing it on new requests
   useEffect(() => {
@@ -21,11 +22,17 @@ function MyApp({ Component, pageProps }) {
   const signOut = () => {
     setUser(undefined); 
   }
+  
+
+  //Implement this logic into /login which will populate a message saying you must login in order to access this page
+  const warningMessage = (msg) => {
+    setMessage(msg);
+  }
 
 
   return (
     <>
-    <UserContext.Provider value = {{user:user, signIn: signIn, signOut: signOut}}>
+    <UserContext.Provider value = {{user:user, message: message, signIn: signIn, signOut: signOut, warningMessage: warningMessage}}>
         <Navigator/>
         <Component {...pageProps} />
     </UserContext.Provider>

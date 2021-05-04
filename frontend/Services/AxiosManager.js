@@ -75,17 +75,24 @@ instance.interceptors.response.use((response) => {
     return response
  }, function (error) {
     const originalRequest = error.config;
-    console.log("Called");
 
+    //Unauthorized - Gets handlled in the catch block of WithAuth HOC
+    if (error.response.status === 401){
+        throw new axios.Cancel({Unauthorized: 401});
+    }
+
+    //JWT Missing - Need to Handle This more Deeply
     if (error.response.status === 422){
         return Promise.reject(error)
     }
 
     
+    //Prevent infinite JWT Refresh Token Loop
     if (error.response.status === 401 && originalRequest.url === 'http://localhost:5000/token') {
         return Promise.reject(error);
     }
- 
+    
+    //Attempting to Get new Access Token (as it was rejected previously) when it expires via Refresh Token
     if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
         const refreshToken = localStorageService.getRefreshToken();

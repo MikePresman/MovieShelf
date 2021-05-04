@@ -80,3 +80,8 @@ def protected():
 @jwt_required()
 def test():
     return {"ok": get_jwt_identity()}
+
+@auth_service_blueprint.route("/auth-check", methods = ["POST"])
+@jwt_required()
+def auth_check():
+    return {"OK": 200}, 200
