@@ -4,14 +4,20 @@ import { useRouter } from 'next/router';
 import {localStorageService} from '../Services/AxiosManager';
 import api from '../Services/AxiosManager';
 
-
 import UserContext from '../Components/Contexts/UserContext';
 
 
 const login = () => {
     const router = useRouter();
     const [formData, setFormData] = useState({username: '', password: ''});
+    const {user, message, warningMessage} = useContext(UserContext);
 
+    useEffect(() => {
+        //onComponentDidUnAmount to remove the warning message, cleaner this way
+        return() => {
+            warningMessage(null);
+        }
+    }, [])
 
     const handleLogin = () => {
         api.post('/login', formData).then(resp => {
@@ -23,12 +29,6 @@ const login = () => {
         }, error => console.log(error));
     }
 
-
-    //contextAPI to handle the logged in user (their username, and maybe id)
-
-    
-
-
     const handleRedirect = () => {router.push("/register");}
 
 
@@ -37,13 +37,13 @@ const login = () => {
     }
 
 
-
-
     return (
         <Segment placeholder style = {{"margin": "0px", "height": "96vh"}}>
             <Grid columns={1} relaxed='very' stackable>
                 <Grid.Column>
                     <Form onSubmit = {handleLogin}>
+                    {/* //warning message only when they have been redirected from a protected route */}
+                    { message ? <Divider horizontal>  {message} </Divider>: null}
                         <Form.Input
                             name = 'username'
                             icon='user'
@@ -52,6 +52,7 @@ const login = () => {
                             placeholder='Username'
                             onChange = {handleChange}
                         />
+
                         <Form.Input
                             name = 'password'
                             icon='lock'
@@ -68,10 +69,7 @@ const login = () => {
                         <Button content='Sign up' icon='signup' size='big' />
                     </Form>
                 </Grid.Column>
-
             </Grid>
-
-
         </Segment>
     );
 

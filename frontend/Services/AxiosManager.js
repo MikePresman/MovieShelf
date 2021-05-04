@@ -56,8 +56,6 @@ let instance = axios.create({baseURL: 'http://localhost:5000'})
 instance.interceptors.request.use(
     config => {
         const token = localStorageService.getAccessToken();
-      
-
         if (token) {
             config.headers['Authorization'] = 'Bearer ' + token;
         }
@@ -85,7 +83,6 @@ instance.interceptors.response.use((response) => {
     if (error.response.status === 422){
         return Promise.reject(error)
     }
-
     
     //Prevent infinite JWT Refresh Token Loop
     if (error.response.status === 401 && originalRequest.url === 'http://localhost:5000/token') {
