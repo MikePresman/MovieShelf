@@ -6,5 +6,6 @@ backend/share
 backend/lib
 backend/bin
 backend/redis-stable
+backend/_redis-stable
 
 tags
