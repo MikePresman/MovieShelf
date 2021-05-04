@@ -7,6 +7,8 @@ from flask_jwt_extended import (create_access_token,
                                 create_refresh_token, get_jwt_identity, jwt_required, get_jwt)
 
 from datetime import datetime, timedelta
+from app import redis_client
+
 auth_service_blueprint = Blueprint('auth_service_blueprint', __name__)
 
 @auth_service_blueprint.route("/login", methods = ["POST"])
@@ -19,7 +21,8 @@ def login():
         return {"Error": "Please Enter Valid Data"}, 400
     username = request.json["username"]
     password = request.json["password"]
-    
+
+
     user = User.query.filter_by(username = username).first()
     if (user != None):
         try:
@@ -59,7 +62,6 @@ def register():
             return {"Error": 500}, 500
     return {'Success': 200}, 200
 
-
 #this route generates a new token if refresh token is valid (refresh = True)
 @auth_service_blueprint.route("/token", methods = ["POST"])
 @jwt_required(refresh=True)
@@ -68,6 +70,11 @@ def token():
     access_token = create_access_token(identity=identity)
     refresh_token = create_refresh_token(identity=identity)
     return {'access_token': access_token, 'refresh_token': refresh_token}, 201
+
+@auth_service_blueprint.route("/auth-check", methods = ["POST"])
+@jwt_required()
+def auth_check():
+    return {"OK": 200}, 200
 
 @auth_service_blueprint.route("/getkey", methods = ["POST"])
 @jwt_required()
@@ -80,8 +87,3 @@ def protected():
 @jwt_required()
 def test():
     return {"ok": get_jwt_identity()}
-
-@auth_service_blueprint.route("/auth-check", methods = ["POST"])
-@jwt_required()
-def auth_check():
-    return {"OK": 200}, 200

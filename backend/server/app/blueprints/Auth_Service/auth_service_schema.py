@@ -6,6 +6,7 @@ register_schema = {
             "password" : {"type" : "string"},
             "confirmPassword" : {"type" : "string"},
         },
+        "required" : ["username", "password", "email", "confirmPassword"]
 }
 
 login_schema = {
@@ -14,7 +15,5 @@ login_schema = {
             "username" : {"type" : "string"},
             "password" : {"type" : "string"},
         },
+        "required" : ["username", "password"]
 }
-
-
-#jsonschema is an absolute joke lol. Doesn't do anything. fuck off

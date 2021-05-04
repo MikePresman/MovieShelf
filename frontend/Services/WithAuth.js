@@ -10,6 +10,7 @@ const WithAuth = (WrappedComponent) => {
         const router = useRouter();
         const [allowed, setAllowed] = useState(false);
         const {warningMessage} = useContext(UserContext);
+        
         useEffect(() => {
                 api.post("/auth-check")
                 .then(resp => resp.data)
@@ -20,16 +21,11 @@ const WithAuth = (WrappedComponent) => {
                     router.push("/login");
                 });
             
-        }, [] )
-        
-
+        }, [])
 
         return (
             <>
-            {!allowed ? <h1>Loading</h1> : <WrappedComponent {...props}/>}
-            
-                
-            
+            {!allowed ? <h1>Loading</h1> : <WrappedComponent {...props}/>}    
             </>
         )
         

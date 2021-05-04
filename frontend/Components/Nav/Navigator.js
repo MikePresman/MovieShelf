@@ -1,13 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Menu, Search, Header, Loader, Dimmer} from 'semantic-ui-react';
 import styles from './navigator.module.css'
 import { useRouter } from 'next/router';
+import UserContext from '../Contexts/UserContext';
 
 const Navigator = () => {
     const router = useRouter()
     const [activeItem, setActiveItem] = useState('Home');
     const [result, setResult] = useState([]);
 
+    const {user, signOut} = useContext(UserContext);
+
+    useEffect(() => {
+
+    }, [])
 
     //this useEffect handles the naming of which url we are on corresponding to what will be highlighted on the navbar
     useEffect(() => {
@@ -25,6 +31,10 @@ const Navigator = () => {
                 break;
             case "Login":
                 router.push("/login");
+                break;
+            case "Logout":
+                signOut();
+
                 break;
             default:
                 break;
@@ -88,7 +98,16 @@ const Navigator = () => {
                     onClick={handleItemClick}
                 />
 
-
+                {user ?
+                    <Menu.Menu position='right'>  
+                        <Search className = {styles.search} loading = {false} onSearchChange = {handleSearch} results = {result} onResultSelect={(e, data) => handleRedirect(data)}/>
+                        <Menu.Item
+                            name='Logout'
+                            active={activeItem === 'logout'}
+                            onClick={handleItemClick}
+                        />
+                    </Menu.Menu> 
+                :
                 <Menu.Menu position='right'>  
                     <Search className = {styles.search} loading = {false} onSearchChange = {handleSearch} results = {result} onResultSelect={(e, data) => handleRedirect(data)}/>
                     <Menu.Item
@@ -97,7 +116,7 @@ const Navigator = () => {
                         onClick={handleItemClick}
                     />
                 </Menu.Menu>
-
+                }
 
 
 

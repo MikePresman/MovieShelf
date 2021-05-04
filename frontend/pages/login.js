@@ -10,7 +10,7 @@ import UserContext from '../Components/Contexts/UserContext';
 const login = () => {
     const router = useRouter();
     const [formData, setFormData] = useState({username: '', password: ''});
-    const {user, message, warningMessage} = useContext(UserContext);
+    const {user, message, warningMessage, signIn} = useContext(UserContext);
 
     useEffect(() => {
         //onComponentDidUnAmount to remove the warning message, cleaner this way
@@ -20,11 +20,13 @@ const login = () => {
     }, [])
 
     const handleLogin = () => {
+        //Get ip of requests to throttle hackers
         api.post('/login', formData).then(resp => {
             console.log(resp)
             localStorageService.setToken({access_token: resp.data.access_token, refresh_token: resp.data.refresh_token});
-            localStorage.setItem("username", resp.data.username);
-            localStorage.setItem("user_id", resp.data.id);
+            localStorageService.setUserDetails(resp.data.username, resp.data.id);
+            signIn(resp.data.username, resp.data.id);
+
             router.push('/');
         }, error => console.log(error));
     }
@@ -42,8 +44,10 @@ const login = () => {
             <Grid columns={1} relaxed='very' stackable>
                 <Grid.Column>
                     <Form onSubmit = {handleLogin}>
+
                     {/* //warning message only when they have been redirected from a protected route */}
                     { message ? <Divider horizontal>  {message} </Divider>: null}
+                    
                         <Form.Input
                             name = 'username'
                             icon='user'
