@@ -22,8 +22,8 @@ class User(db.Model):
 
     def authenticate(self, password):
         if (check_password_hash(self.password_hash, password) == True):
-                access_token = create_access_token(identity=self.username) #NEEDS TO BE USERNAME OR ELSE WE CAN'T USE JWT_IDENTITY
-                refresh_token = create_refresh_token(identity=self.username)
+                access_token = create_access_token(identity=self.id) #is id because easier to reference id back from get_jwt_identity()
+                refresh_token = create_refresh_token(identity=self.id)
                 return (True, {
                     'username': self.username,
                     'id': self.id,

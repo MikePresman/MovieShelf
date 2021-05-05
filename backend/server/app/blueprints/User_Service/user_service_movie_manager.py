@@ -17,8 +17,8 @@ def add_to_watch():
         return {"Error": "Please Enter Valid Data"}, 412
     
     movie_id = int(request.json["movieID"]) #cast to int since DB has int type
-    username = get_jwt_identity()
-
+    user_id = get_jwt_identity()
+    
     #adding movie if it doesn't exist
     movie = Movie.query.filter_by(movie_id = movie_id).first()
     if (movie == None):
@@ -26,13 +26,19 @@ def add_to_watch():
         db.session.add(movie)
         db.session.commit()
     
-    user_id_query = User.query.filter_by(username = username).first()
-
-    new_to_watch = UserToWatch(user_id = user_id_query.id, movie_id = int(movie_id))
+    new_to_watch = UserToWatch(user_id = user_id, movie_id = int(movie_id))
     db.session.add(new_to_watch)
 
     db.session.commit()
     return {"Success": 200}, 200
 
 
+@user_service_movie_manager.route("/get-to-watch", methods = ["POST"])
+@jwt_required()
+def get_to_watch():
+    to_watch = UserToWatch.query.filter_by(user_id = get_jwt_identity()).all()
+    movies_to_watch_list = []
+    for movie in to_watch:
+        movies_to_watch_list.append(movie.movie_id)
+    return {"moviesToWatchList": movies_to_watch_list}, 200
 
