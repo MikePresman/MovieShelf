@@ -34,7 +34,6 @@ const Movie = (props) => {
       if(router.isReady){
         fetch(`https://api.themoviedb.org/3/movie/${pid}?api_key=454a5f6a555d21549c86c51fa91f0a1a`)
           .then(response => response.json()).then(data => {
-            console.log(data);
             setMovieDetails({key: data.id, title : data.title, poster:data.poster_path, desc: data.overview, time: data.runtime, genres: data.genres, tagline: data.tagline});
           }).catch(err => console.log(err));
 
@@ -86,7 +85,7 @@ const Movie = (props) => {
             <Grid.Row>
               <Card.Group itemsPerRow={6}>
                 {actorsDetailed ?  actorsDetailed.map(actor => 
-                <Card fluid key = {actor.key} image = {actor.img} header = {actor.name} color = "blue" style={{"fontSize": "10px"}}/>
+                <Card key = {actor.key} fluid image = {actor.img} header = {actor.name} color = "blue" style={{"fontSize": "10px"}}/>
                 
             
                 ) : null }

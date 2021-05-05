@@ -22,8 +22,8 @@ class User(db.Model):
 
     def authenticate(self, password):
         if (check_password_hash(self.password_hash, password) == True):
-                access_token = create_access_token(identity=self.password_hash)
-                refresh_token = create_refresh_token(identity=self.password_hash)
+                access_token = create_access_token(identity=self.username) #NEEDS TO BE USERNAME OR ELSE WE CAN'T USE JWT_IDENTITY
+                refresh_token = create_refresh_token(identity=self.username)
                 return (True, {
                     'username': self.username,
                     'id': self.id,
@@ -41,8 +41,7 @@ class Movie(db.Model):
 class UserToWatch(db.Model):
     __tablename__ = 'usertowatch'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
-    user = db.relationship('User', foreign_keys=[user_id])
-    movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'), nullable = False)
-    movie = db.relationship('Movie', foreign_keys=[movie_id])
+    user_id = db.Column(db.Integer, nullable = False)
+    movie_id = db.Column(db.Integer, nullable = False)
+    
 

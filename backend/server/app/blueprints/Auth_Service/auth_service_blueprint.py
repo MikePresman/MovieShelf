@@ -37,9 +37,11 @@ def login():
 
 @auth_service_blueprint.route("/register", methods = ["POST"])
 def register():
+    print(request.json)
     try:
         validate(request.json, schema = register_schema)
-        if (request.json.get('username') == None or request.json.get('password') == None or request.json.get('email')):
+        if (request.json.get('username') == None or request.json.get('password') == None or request.json.get('email') == None):
+            print("Exception?")
             raise Exception
     except Exception as e:
         return {"Error": "Please Enter Valid Data"}, 400

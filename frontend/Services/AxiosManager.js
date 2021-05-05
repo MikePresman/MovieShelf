@@ -86,11 +86,11 @@ instance.interceptors.response.use((response) => {
  }, function (error) {
     const originalRequest = error.config;
 
-    //Unauthorized - Gets handlled in the catch block of WithAuth HOC
-    if (error.response.status === 401){
-        throw new axios.Cancel({Unauthorized: 401});
+    
+    if (error.response.status === 400){
+        console.log(error);
     }
-
+    
     //JWT Missing - Need to Handle This more Deeply
     if (error.response.status === 422){
         return Promise.reject(error)
@@ -110,6 +110,12 @@ instance.interceptors.response.use((response) => {
             return instance(originalRequest); //finish handling original stuff
         });
     }
+
+    //Unauthorized - Gets handlled in the catch block of WithAuth HOC
+    if (error.response.status === 401 ){
+        throw new axios.Cancel({Unauthorized: 401});
+    }
+
     return Promise.reject(error);
  });
 
