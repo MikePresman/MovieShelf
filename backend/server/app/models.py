@@ -31,10 +31,18 @@ class User(db.Model):
                     'refresh_token': refresh_token
                 })
         return (False, {})
+    
 
+class Movie(db.Model):
+    __tablename__ = 'movie'
+    id = db.Column(db.Integer, primary_key=True)
+    movie_id = db.Column(db.Integer, unique=True, index = True)
 
+class UserToWatch(db.Model):
+    __tablename__ = 'usertowatch'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
+    user = db.relationship('User', foreign_keys=[user_id])
+    movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'), nullable = False)
+    movie = db.relationship('Movie', foreign_keys=[movie_id])
 
-
-#https://stackoverflow.com/questions/39176237/how-do-i-store-jwt-and-send-them-with-every-request-using-react
-#https://medium.com/@riken.mehta/full-stack-tutorial-3-flask-jwt-e759d2ee5727 - user_schema
-#https://medium.com/@monkov/react-using-axios-interceptor-for-token-refreshing-1477a4d5fc26

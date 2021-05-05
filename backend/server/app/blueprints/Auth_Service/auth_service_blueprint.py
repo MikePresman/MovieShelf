@@ -7,7 +7,7 @@ from flask_jwt_extended import (create_access_token,
                                 create_refresh_token, get_jwt_identity, jwt_required, get_jwt)
 
 from datetime import datetime, timedelta
-from app import redis_client
+#from app import redis_client
 
 auth_service_blueprint = Blueprint('auth_service_blueprint', __name__)
 
