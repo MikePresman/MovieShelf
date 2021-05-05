@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Container, Grid, Image, Segment, Label, Header } from 'semantic-ui-react'
+import { Container, Grid, Image, Segment, Label, Header, Icon, Input } from 'semantic-ui-react'
 import UserContext from '../Contexts/UserContext';
 import api from '../../Services/AxiosManager';
 
@@ -43,6 +43,10 @@ const Explore = () => {
 
     }, [])
 
+    const remove = () => {
+        console.log("ok")
+    }
+
     return (
         <>
         <Container>
@@ -55,21 +59,22 @@ const Explore = () => {
             ) : null} 
             </Grid>
 
-
-
         {user ? 
             <Segment>
                 <Grid>
                     <Grid.Row centered>
                         <Header>
-                            To Watch List
+                            My Watch List
                         </Header>
-
                     </Grid.Row>
                     <Grid.Row centered>
                     {moviesToWatch ? moviesToWatch.map(movie =>
                         <Grid.Column key = {movie.key} width={3}>
+                            {/* add a checkmark for removed and handle it onclick to remove from db */}
+                            <Icon link style={{"fontSize": "18px"}} name = "checkmark" color="teal" size = "large" onClick = {remove}>Remove</Icon>
                             <Image src = {movie.img} size = "small" />
+
+                            
                                 {movie.name}    
                         </Grid.Column>
                     ): null} 

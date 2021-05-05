@@ -91,6 +91,9 @@ instance.interceptors.response.use((response) => {
         console.log(error);
     }
     
+    if (error.response.status === 409){
+        throw new axios.Cancel({"Duplicate Entry": 409});
+    }
     //JWT Missing - Need to Handle This more Deeply
     if (error.response.status === 422){
         return Promise.reject(error)

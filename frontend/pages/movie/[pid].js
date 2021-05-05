@@ -98,7 +98,7 @@ const Movie = (props) => {
               <Segment>      
                 <Label color = "blue" as = 'a' onClick={addToWatchList}>
                   <Icon name = "star" size = "large"/>
-                  Add To Watch
+                  Add To Watch List
                 </Label>
             </Segment> 
             : null}

@@ -9,11 +9,13 @@ const safeRoute = () => {
 
 export default WithAuth(safeRoute);
 
-//Add reviews, favourites, recommended movies,
-//profiles
+//finish from remove watch list feature
+//Add reviews, favourites, profiles && friends
 //tweet like feature with websockets
 
-
+//If Time Allows - Messaging friends, 
 //Work on websockets, learn pub-sub
 //Implement Redis Data Cache
 //Think about how RabbitMQ can be used
+
+// CMS for real estate agents - Spring & ReactJS

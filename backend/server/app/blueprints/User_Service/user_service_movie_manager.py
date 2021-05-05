@@ -26,7 +26,10 @@ def add_to_watch():
         db.session.add(movie)
         db.session.commit()
     
+    if (UserToWatch.query.filter_by(user_id = user_id, movie_id = int(movie_id)).first() != None):
+        return {"Duplicate Entry": 409}, 409
     new_to_watch = UserToWatch(user_id = user_id, movie_id = int(movie_id))
+
     db.session.add(new_to_watch)
 
     db.session.commit()
