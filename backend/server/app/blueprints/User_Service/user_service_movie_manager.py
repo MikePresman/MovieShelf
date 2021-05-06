@@ -5,7 +5,7 @@ from flask_jwt_extended import (create_access_token,
 
 user_service_movie_manager = Blueprint('user_service_movie_manager', __name__)
 
-from .user_service_schema import new_favourite_schema 
+from .user_service_schema import new_favourite_schema , remove_to_watch_schema
 from app.models import Movie, UserToWatch, db, User
 
 @user_service_movie_manager.route("/add-to-watch", methods = ["POST"])
@@ -45,3 +45,15 @@ def get_to_watch():
         movies_to_watch_list.append(movie.movie_id)
     return {"moviesToWatchList": movies_to_watch_list}, 200
 
+
+@user_service_movie_manager.route("/remove-to-watch", methods = ["POST"])
+@jwt_required()
+def remove_to_watch():
+    try:
+        validate(request.json, schema = remove_to_watch_schema)
+    except Exception as e:
+        return {"Error": "Please Enter Valid Data"}, 412
+    movieID = request.json["movieID"]
+    movie_to_remove = UserToWatch.query.filter_by(movie_id = movieID).delete()
+    db.session.commit()
+    return {"Success": 200}, 200

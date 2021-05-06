@@ -23,12 +23,8 @@ const Explore = () => {
 
     useEffect(() => {
         api.post("/get-to-watch").then(resp => resp).then(respData =>getMoviesData(respData.data)).catch(err => console.log(err));
-    },[])
+    },[moviesToWatch])
 
-
-    useEffect(() => {
-        console.log(moviesToWatch);
-    })
 
     //load top 10 books
     useEffect(() => {
@@ -43,8 +39,10 @@ const Explore = () => {
 
     }, [])
 
-    const remove = () => {
-        console.log("ok")
+    const remove = (movieID) => {
+        const formData = {movieID: movieID}
+        console.log(formData);
+        api.post("/remove-to-watch", formData).then().then(data => setMoviesToWatch(null)).catch(err => console.log(err));
     }
 
     return (
@@ -71,7 +69,7 @@ const Explore = () => {
                     {moviesToWatch ? moviesToWatch.map(movie =>
                         <Grid.Column key = {movie.key} width={3}>
                             {/* add a checkmark for removed and handle it onclick to remove from db */}
-                            <Icon link style={{"fontSize": "18px"}} name = "checkmark" color="teal" size = "large" onClick = {remove}>Remove</Icon>
+                            <Icon link style={{"fontSize": "18px"}} name = "checkmark" color="teal" size = "large" onClick={() => remove(movie.key)}>Remove</Icon>
                             <Image src = {movie.img} size = "small" />
 
                             
