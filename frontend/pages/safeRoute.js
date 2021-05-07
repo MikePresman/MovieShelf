@@ -12,6 +12,8 @@ export default WithAuth(safeRoute);
 //Work on profile - favourites, friends, 
 //Add Reviews on Movie Page
 //tweet like feature with websockets
+//aws
+//docker&& kubernetes
 
 //If Time Allows - Messaging friends, 
 //Work on websockets, learn pub-sub

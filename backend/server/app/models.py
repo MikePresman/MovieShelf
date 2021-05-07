@@ -53,3 +53,4 @@ class MovieComment(db.Model):
     movie_id = db.Column(db.Integer, nullable = False)
     comment = db.Column(db.Text, nullable = False)
     date_posted = db.Column(db.String(32), nullable = False)
+    up_votes = db.Column(db.Integer, nullable = False, default = 0)

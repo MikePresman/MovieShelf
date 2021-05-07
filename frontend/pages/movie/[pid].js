@@ -14,8 +14,14 @@ const Movie = (props) => {
     const [actors, setActors] = useState([]); //actors we get from movieDetails - used to query more specific actor details
     const [actorsDetailed, setActorsDetailed] = useState([]); //actorsDetailed is the specific API request to get specific actor data catered to our needs
     const [comment, setComment] = useState();
-   
-   
+
+    const [commentsList, setCommentsList] = useState();
+    //fetch comments
+    useEffect(() => {
+      if (router.isReady)
+        api.post('get-comments', {"movieID": pid}).then().then(resp => { console.log(resp); setCommentsList(resp.data.payload)}).catch(err => console.log(err));
+    },[comment, pid])
+
     //fetch API to get actorsDetailed data - using Promise.all to wait for each actor to be queryed so we populate all before sending it off to the view
     useEffect(() => {
       async function handler() {
@@ -119,20 +125,22 @@ const Movie = (props) => {
     </Header>
       
       {/* //Comments Section */}
-    <Comment>
-      <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/matt.jpg' />
+  {commentsList ? 
+      commentsList.map(comment_info => 
+    
+    <Comment key = {comment_info.key}>
+      <Comment.Avatar src={`https://avatars.dicebear.com/api/human/${comment_info.avatar}.svg`} />
       <Comment.Content>
-        <Comment.Author as='a'>Matt</Comment.Author>
+        <Comment.Author as='a'>{comment_info.userPosted}</Comment.Author>
         <Comment.Metadata>
-          <div>Today at 5:42PM</div>
+          <div>{comment_info.datePosted}</div>
         </Comment.Metadata>
-        <Comment.Text>How artistic!</Comment.Text>
-        <Comment.Actions>
-          <Comment.Action>Reply</Comment.Action>
-        </Comment.Actions>
+        <Comment.Text>{comment_info.commentText}</Comment.Text>
       </Comment.Content>
     </Comment>
-    
+  
+)
+    : null }
     <Form reply>
       <Form.TextArea value = {comment} onChange = {replyMessage}/>
       <Button content='Add Comment' labelPosition='left' icon='edit' primary onClick = {sendComment}/>

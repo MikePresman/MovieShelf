@@ -8,7 +8,7 @@ import Router from 'next/router';
 //This is a LocalStorageService
 const LocalStorageService = (() => {
     let _service;
-
+    
     function _getService(){
         if (!_service){
             _service = this;
@@ -58,7 +58,7 @@ const LocalStorageService = (() => {
 })();
 
 
-export const localStorageService = LocalStorageService.getService(); //new 'instance', wtf is javascript
+export const localStorageService = LocalStorageService.getService(); //IIFE Pattern
 
 
 let instance = axios.create({baseURL: 'http://localhost:5000'})
