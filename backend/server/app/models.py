@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 
+
 db = SQLAlchemy()
 migrate = Migrate()
 jwt=JWTManager()
@@ -45,4 +46,10 @@ class UserToWatch(db.Model):
     user_id = db.Column(db.Integer, nullable = False)
     movie_id = db.Column(db.Integer, nullable = False)
     
-
+class MovieComment(db.Model):
+    __tablename__ =  'moviecomment'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, nullable = False)
+    movie_id = db.Column(db.Integer, nullable = False)
+    comment = db.Column(db.Text, nullable = False)
+    date_posted = db.Column(db.String(32), nullable = False)

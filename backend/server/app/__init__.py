@@ -27,6 +27,9 @@ def create_app(config_filename):
 
     from .blueprints.User_Service.profile_service_blueprint import profile_service_blueprint
     app.register_blueprint(profile_service_blueprint)
+
+    from .blueprints.Movie_Service.movie_service_blueprint import movie_service_blueprint
+    app.register_blueprint(movie_service_blueprint)
     
     
     

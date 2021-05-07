@@ -9,7 +9,7 @@ const profile = () => {
     const [avatarSeed, setAvatarSeed] = useState('123');
     const {user, signOut} = useContext(UserContext);
     const router = useRouter();
-    
+
     //This works fine for now, but can be hardended later
     useEffect(() => {
          if (user.username !== router.query.profile)
@@ -36,12 +36,13 @@ const profile = () => {
         <Grid columns={2}>
         <Grid.Column>
           <Image
+          size = "small"
             fluid
             label={{ as: 'a', corner: 'left', icon: 'save' }}
             src={`https://avatars.dicebear.com/api/human/${avatarSeed}.svg`}
             onClick = {saveAvatar}
           />
-          <Button onClick = {generateNewSeed}>Generate New Avatar</Button>
+          <Button size = "small" onClick = {generateNewSeed}>Generate New Avatar</Button>
           
         </Grid.Column>
         </Grid>    

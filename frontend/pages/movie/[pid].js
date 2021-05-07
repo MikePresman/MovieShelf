@@ -13,7 +13,7 @@ const Movie = (props) => {
     const [movieDetails, setMovieDetails] = useState(null); //movieDetails contains the generic movieDetails
     const [actors, setActors] = useState([]); //actors we get from movieDetails - used to query more specific actor details
     const [actorsDetailed, setActorsDetailed] = useState([]); //actorsDetailed is the specific API request to get specific actor data catered to our needs
-    
+    const [comment, setComment] = useState();
    
    
     //fetch API to get actorsDetailed data - using Promise.all to wait for each actor to be queryed so we populate all before sending it off to the view
@@ -52,8 +52,17 @@ const Movie = (props) => {
         api.post("/add-to-watch", {movieID: pid}).then(resp => resp).then(data => console.log(data)).catch(err => console.log(err));
       }
 
+      const replyMessage = (e) => {
+        setComment(e.target.value);
+      }
 
-
+      const sendComment = () =>{
+        if (comment !== undefined && comment !== ""){
+          api.post("set-comment", {"movieID": pid, "comment": comment }).then().then(resp => {
+            setComment('');
+            }).catch(err => console.log(err));
+        }
+      }
 
   return (
     <Grid columns={2}>
@@ -104,7 +113,7 @@ const Movie = (props) => {
             : null}
           
         
-          <Comment.Group>
+    <Comment.Group>
     <Header as='h3' dividing>
       Comments
     </Header>
@@ -123,9 +132,10 @@ const Movie = (props) => {
         </Comment.Actions>
       </Comment.Content>
     </Comment>
+    
     <Form reply>
-      <Form.TextArea />
-      <Button content='Add Reply' labelPosition='left' icon='edit' primary />
+      <Form.TextArea value = {comment} onChange = {replyMessage}/>
+      <Button content='Add Comment' labelPosition='left' icon='edit' primary onClick = {sendComment}/>
     </Form>
     </Comment.Group>
     
