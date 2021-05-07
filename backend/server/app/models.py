@@ -19,6 +19,7 @@ class User(db.Model):
     status = db.Column(db.Integer)
     last_logged_in = db.Column(db.String(16))
     password_hash = db.Column(db.String(128))
+    avatar = db.Column(db.String(123))
 
     def authenticate(self, password):
         if (check_password_hash(self.password_hash, password) == True):

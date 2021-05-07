@@ -8,16 +8,12 @@ const Navigator = () => {
     const router = useRouter()
     const [activeItem, setActiveItem] = useState('Home');
     const [result, setResult] = useState([]);
-
     const {user, signOut} = useContext(UserContext);
-
-    useEffect(() => {
-
-    }, [])
 
     //this useEffect handles the naming of which url we are on corresponding to what will be highlighted on the navbar
     useEffect(() => {
-        setActiveItem(router.pathname.substring(1,router.pathname.length));
+        let parts = router.pathname.split("/");
+        setActiveItem(parts[1]);
     }, [router.pathname])
 
     const handleItemClick = (event) => {
@@ -27,14 +23,14 @@ const Navigator = () => {
                 break;
             case "Messages":
                 break;
-            case "Friends":
+            case "Profile":
+                router.push(`/profile/${user.username}/`)
                 break;
             case "Login":
                 router.push("/login");
                 break;
             case "Logout":
                 signOut();
-
                 break;
             default:
                 break;
@@ -76,7 +72,6 @@ const Navigator = () => {
     return (
         <div>
             <Menu pointing secondary>
-
                 <Menu.Item>
                     <Header color = "teal" as='h3'>MovieShelf</Header>
                 </Menu.Item>
@@ -89,14 +84,17 @@ const Navigator = () => {
                 />
                 <Menu.Item
                     name='messages'
-                    active={activeItem === 'Messages'}
+                    active={activeItem === 'messages'}
                     onClick={handleItemClick}
                 />
+                { user ?
+                
                 <Menu.Item
-                    name='friends'
-                    active={activeItem === 'Friends'}
+                    name='profile'
+                    active={activeItem === 'profile'}
                     onClick={handleItemClick}
                 />
+            : null}
 
                 {user ?
                     <Menu.Menu position='right'>  

@@ -16,3 +16,13 @@ remove_to_watch_schema = {
         },
         "required" : ["movieID"]
 }
+
+
+set_avatar_schema = { 
+    "type" : "object",
+        "properties" : {
+            "seed" : {"type" : "string"},
+            
+        },
+        "required" : ["seed"]
+}

@@ -23,7 +23,7 @@ const Explore = () => {
 
     useEffect(() => {
         api.post("/get-to-watch").then(resp => resp).then(respData =>getMoviesData(respData.data)).catch(err => console.log(err));
-    },[moviesToWatch])
+    },[])
 
 
     //load top 10 books

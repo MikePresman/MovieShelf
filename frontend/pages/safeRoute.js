@@ -9,8 +9,8 @@ const safeRoute = () => {
 
 export default WithAuth(safeRoute);
 
-//finish from remove watch list feature
-//Add reviews, favourites, profiles && friends
+//Work on profile - favourites, friends, 
+//Add Reviews on Movie Page
 //tweet like feature with websockets
 
 //If Time Allows - Messaging friends, 

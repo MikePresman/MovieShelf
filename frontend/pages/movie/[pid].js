@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Router, { useRouter } from 'next/router';
-import { Grid, Image, Segment, Header, Card, Icon, Button, Label} from 'semantic-ui-react';
+import { Grid, Image, Segment, Header, Card, Icon, Button, Label, Comment, Form} from 'semantic-ui-react';
 import UserContext from '../../Components/Contexts/UserContext';
 import api from '../../Services/AxiosManager';
 
@@ -97,13 +97,38 @@ const Movie = (props) => {
             {user ? 
               <Segment>      
                 <Label color = "blue" as = 'a' onClick={addToWatchList}>
-                  <Icon name = "star" size = "large"/>
+                  <Icon name = "tag" size = "large"/>
                   Add To Watch List
                 </Label>
             </Segment> 
             : null}
           
         
+          <Comment.Group>
+    <Header as='h3' dividing>
+      Comments
+    </Header>
+      
+      {/* //Comments Section */}
+    <Comment>
+      <Comment.Avatar src='https://react.semantic-ui.com/images/avatar/small/matt.jpg' />
+      <Comment.Content>
+        <Comment.Author as='a'>Matt</Comment.Author>
+        <Comment.Metadata>
+          <div>Today at 5:42PM</div>
+        </Comment.Metadata>
+        <Comment.Text>How artistic!</Comment.Text>
+        <Comment.Actions>
+          <Comment.Action>Reply</Comment.Action>
+        </Comment.Actions>
+      </Comment.Content>
+    </Comment>
+    <Form reply>
+      <Form.TextArea />
+      <Button content='Add Reply' labelPosition='left' icon='edit' primary />
+    </Form>
+    </Comment.Group>
+    
         
           </Grid.Column>
         </Grid>
