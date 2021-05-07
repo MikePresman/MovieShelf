@@ -1,3 +1,3 @@
 Social Media for Movie Lovers
 Example Page
-![](https://imgur.com/cyjcHyQ)
+![](https://i.imgur.com/cyjcHyQ.png)
