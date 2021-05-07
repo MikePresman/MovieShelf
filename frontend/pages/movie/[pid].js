@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Router, { useRouter } from 'next/router';
-import { Grid, Image, Segment, Header, Card, Icon, Button, Label, Comment, Form} from 'semantic-ui-react';
+import { Grid, Image, Segment, Header, Card, Icon, Button, Label, Comment, Form, Feed} from 'semantic-ui-react';
 import UserContext from '../../Components/Contexts/UserContext';
 import api from '../../Services/AxiosManager';
+import { route } from 'next/dist/next-server/server/router';
 
 //make a dynamic route
 const Movie = (props) => {
@@ -16,11 +17,13 @@ const Movie = (props) => {
     const [comment, setComment] = useState();
 
     const [commentsList, setCommentsList] = useState();
+    const [dummy, setDummy] = useState();
+  
     //fetch comments
     useEffect(() => {
       if (router.isReady)
         api.post('get-comments', {"movieID": pid}).then().then(resp => { console.log(resp); setCommentsList(resp.data.payload)}).catch(err => console.log(err));
-    },[comment, pid])
+    },[dummy, comment, pid])
 
     //fetch API to get actorsDetailed data - using Promise.all to wait for each actor to be queryed so we populate all before sending it off to the view
     useEffect(() => {
@@ -69,6 +72,11 @@ const Movie = (props) => {
             }).catch(err => console.log(err));
         }
       }
+
+      const likeHandler = (commentID) => {
+        api.post("like-moviecomment", {"commentID": commentID}).then(resp => resp).then(data => setDummy(data)).catch(err => console.log(err));
+      }
+
 
   return (
     <Grid columns={2}>
@@ -134,11 +142,25 @@ const Movie = (props) => {
         <Comment.Author as='a'>{comment_info.userPosted}</Comment.Author>
         <Comment.Metadata>
           <div>{comment_info.datePosted}</div>
+
+        <Feed onClick ={() => likeHandler(comment_info.comment_id)}>
+          <Feed.Event>
+              <Feed.Content>
+                <Feed.Meta>
+                  <Feed.Like>
+                    <Icon name='like' color='red'/> {comment_info.up_votes} Likes
+                  </Feed.Like>  
+                </Feed.Meta>
+              </Feed.Content>
+          </Feed.Event>
+        </Feed>
+
+
         </Comment.Metadata>
         <Comment.Text>{comment_info.commentText}</Comment.Text>
       </Comment.Content>
     </Comment>
-  
+        
 )
     : null }
     <Form reply>

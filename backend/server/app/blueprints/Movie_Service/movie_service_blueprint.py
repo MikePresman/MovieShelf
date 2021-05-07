@@ -46,6 +46,15 @@ def get_comments():
     key_counter = 0
     for comment in comments:
         user = User.query.filter_by(id = comment.user_id).first()
-        response_payload.append({"commentText": comment.comment, "datePosted": comment.date_posted, "up_votes": comment.up_votes, "userPosted": user.username, "avatar": user.avatar, "key": key_counter})
+        response_payload.append({"comment_id": comment.id, "commentText": comment.comment, "datePosted": comment.date_posted, "up_votes": comment.up_votes, "userPosted": user.username, "avatar": user.avatar, "key": key_counter})
         key_counter+=1
     return {"payload": response_payload}, 200
+
+@movie_service_blueprint.route("/like-moviecomment", methods = ["POST"])
+@jwt_required()
+def like_moviecomment():
+    comment_id = request.json["commentID"]
+    movie_comment = MovieComment.query.filter_by(id = comment_id).first()
+    movie_comment.up_votes +=1
+    db.session.commit()
+    return {"Success": 200}, 200
