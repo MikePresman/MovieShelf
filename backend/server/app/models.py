@@ -54,3 +54,12 @@ class MovieComment(db.Model):
     comment = db.Column(db.Text, nullable = False)
     date_posted = db.Column(db.String(32), nullable = False)
     up_votes = db.Column(db.Integer, nullable = False, default = 0)
+
+class MovieCommentsLike(db.Model):
+    __tablename__ =  "moviecommentslike"
+    id = db.Column(db.Integer, primary_key=True)
+    comment_id = db.Column(db.Integer, nullable = False)
+    comment_liked_by_user_id = db.Column(db.Integer, nullable = False)
+    
+
+

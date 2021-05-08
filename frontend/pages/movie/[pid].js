@@ -22,7 +22,7 @@ const Movie = (props) => {
     //fetch comments
     useEffect(() => {
       if (router.isReady)
-        api.post('get-comments', {"movieID": pid}).then().then(resp => { console.log(resp); setCommentsList(resp.data.payload)}).catch(err => console.log(err));
+        api.post('get-comments', {"movieID": pid}).then().then(resp => { console.log(resp);setCommentsList(resp.data.payload)}).catch(err => console.log(err));
     },[dummy, comment, pid])
 
     //fetch API to get actorsDetailed data - using Promise.all to wait for each actor to be queryed so we populate all before sending it off to the view
