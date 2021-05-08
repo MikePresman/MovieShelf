@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {Comment, Form, Feed, Button} from 'semantic-ui-react';
 import useChat from '../../Components/sockettest';
 import {useRouter} from 'next/router';
@@ -18,6 +18,11 @@ const ChatRoom = (props) => {
     setNewMessage("");
   };
 
+
+  useEffect(() => {
+    console.log(messages);
+  })
+
   return (
     <div className="chat-room-container">
       <h1 className="room-name">Room: {1}</h1>
@@ -27,10 +32,10 @@ const ChatRoom = (props) => {
             <li
               key={i}
               className={`message-item ${
-                message.ownedByCurrentUser ? "my-message" : "received-message"
+                message.message.ownedByCurrentUser ? "my-message" : "received-message"
               }`}
             >
-              {message.body}
+              {message.message.body}
             </li>
           ))}
         </ol>

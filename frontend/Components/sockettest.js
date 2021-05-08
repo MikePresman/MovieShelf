@@ -20,10 +20,12 @@ const useChat = (roomId) => {
     socketRef.current.on(NEW_CHAT_MESSAGE_EVENT, (message) => {
       console.log("GOT IT?")
       console.log(message)
+
       const incomingMessage = {
         ...message,
         ownedByCurrentUser: message.senderId === socketRef.current.id,
       };
+      
       setMessages((messages) => [...messages, incomingMessage]);
     });
     

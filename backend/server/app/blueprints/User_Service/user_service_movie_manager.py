@@ -58,3 +58,4 @@ def remove_to_watch():
     movie_to_remove = UserToWatch.query.filter_by(movie_id = movieID).delete()
     db.session.commit()
     return {"Success": 200}, 200
+
