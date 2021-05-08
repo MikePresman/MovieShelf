@@ -9,17 +9,15 @@ const SOCKET_SERVER_URL = "http://localhost:5000";
 const useChat = (roomId) => {
   const [messages, setMessages] = useState([]); // Sent and received messages
   const socketRef = useRef();
-
+  
   useEffect(() => {  
     // Creates a WebSocket connection
     socketRef.current = socketIOClient(SOCKET_SERVER_URL, {
-      query: { roomId },
+      query: {roomId},
     });
     
     // Listens for incoming messages
     socketRef.current.on(NEW_CHAT_MESSAGE_EVENT, (message) => {
-      console.log("GOT IT?")
-      console.log(message)
 
       const incomingMessage = {
         ...message,

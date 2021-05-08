@@ -7,4 +7,5 @@ ws_handler = Blueprint('ws_handler', __name__)
 @socketio.on("newChatMessage")
 def handle_event(message):
     print(message)
-    emit('newChatMessage', {'message': message})
+    emit('newChatMessage', {'message': message}, broadcast = True)
+

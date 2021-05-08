@@ -19,10 +19,6 @@ const ChatRoom = (props) => {
   };
 
 
-  useEffect(() => {
-    console.log(messages);
-  })
-
   return (
     <div className="chat-room-container">
       <h1 className="room-name">Room: {1}</h1>

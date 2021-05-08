@@ -13,7 +13,7 @@ const login = () => {
     const {user, message, warningMessage, signIn} = useContext(UserContext);
 
     useEffect(() => {
-        //onComponentDidUnAmount to remove the warning message, cleaner this way
+        //onComponentDidUnmount remove the warning message, cleaner this way
         return() => {
             warningMessage(null);
         }
