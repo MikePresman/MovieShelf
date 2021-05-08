@@ -8,7 +8,7 @@ const Explore = () => {
     const [top5, setTop5] = useState([]);
     const {user} = useContext(UserContext);
     const [moviesToWatch, setMoviesToWatch] = useState()
-    
+    const [dummy, setDummy] = useState();
     
     async function getMoviesData(moviesData){
      let moviesToWatch = moviesData.moviesToWatchList.map(movie_id => 
@@ -21,9 +21,10 @@ const Explore = () => {
     }
 
 
+
     useEffect(() => {
         api.post("/get-to-watch").then(resp => resp).then(respData =>getMoviesData(respData.data)).catch(err => console.log(err));
-    },[])
+    },[dummy])
 
 
     //load top 10 books
@@ -42,7 +43,7 @@ const Explore = () => {
     const remove = (movieID) => {
         const formData = {movieID: movieID}
         console.log(formData);
-        api.post("/remove-to-watch", formData).then().then(data => setMoviesToWatch(null)).catch(err => console.log(err));
+        api.post("/remove-to-watch", formData).then().then(data => setDummy(data)).catch(err => console.log(err));
     }
 
     return (

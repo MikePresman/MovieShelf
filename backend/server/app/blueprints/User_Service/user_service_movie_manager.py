@@ -8,6 +8,7 @@ user_service_movie_manager = Blueprint('user_service_movie_manager', __name__)
 from .user_service_schema import new_favourite_schema , remove_to_watch_schema
 from app.models import Movie, UserToWatch, db, User
 
+
 @user_service_movie_manager.route("/add-to-watch", methods = ["POST"])
 @jwt_required()
 def add_to_watch():

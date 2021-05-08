@@ -3,14 +3,7 @@ from flask_jwt_extended import (create_access_token,
                                 create_refresh_token)
 
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-from flask_jwt_extended import JWTManager
-
-
 db = SQLAlchemy()
-migrate = Migrate()
-jwt=JWTManager()
-
 
 class User(db.Model):
     __tablename__ = 'user'

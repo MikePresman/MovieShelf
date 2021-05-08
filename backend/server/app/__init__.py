@@ -5,6 +5,7 @@ from flask_cors import CORS
 import os
 import redis
 
+
 #redis_client = redis.Redis(host='localhost', port = 6379, db = 0)
 
 def create_app(config_filename):
@@ -13,8 +14,13 @@ def create_app(config_filename):
 
     CORS(app)
 
-    from .models import db, migrate, jwt
+    #usually, we initalize from library_registration (see below), but db belongs to models so lets go with that
+    from .models import db
     db.init_app(app)
+
+    #initializing third party libraries here with the app, cleaner dependancy chain this way
+    from .library_registration import socketio, migrate, jwt
+    socketio.init_app(app, cors_allowed_origins="http://localhost:3000")
     migrate.init_app(app, db)
     jwt.init_app(app)
 
@@ -31,13 +37,7 @@ def create_app(config_filename):
     from .blueprints.Movie_Service.movie_service_blueprint import movie_service_blueprint
     app.register_blueprint(movie_service_blueprint)
     
-    
-    
     return app
 
 
-
 app = create_app(Config)
-
-
-
