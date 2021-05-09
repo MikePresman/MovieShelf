@@ -29,12 +29,12 @@ const ChatRoom = (props) => {
             message.ownedByCurrentUser ? 
             <li
               key={i}
-              style = {{"color" : "black"}}
+              style = {{"color" : "black", "display": "flex"}}
             > <Image size = "mini" src={`https://avatars.dicebear.com/api/human/${message.avatar}.svg`} /><b>{message.message.username}: </b>{message.message.body}</li>
             : 
             <li
               key={i}
-              style = {{"color": "red"}}
+              style = {{"color": "red", "display": "flex"}}
             ><Image size = "mini" src={`https://avatars.dicebear.com/api/human/${message.avatar}.svg`} /> <b>{message.message.username}: </b>{message.message.body}
             </li>
           ))}

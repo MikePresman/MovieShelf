@@ -3,6 +3,7 @@ import { Menu, Search, Header, Loader, Dimmer} from 'semantic-ui-react';
 import styles from './navigator.module.css'
 import { useRouter } from 'next/router';
 import UserContext from '../Contexts/UserContext';
+import api from '../../Services/AxiosManager';
 
 const Navigator = () => {
     const router = useRouter()
