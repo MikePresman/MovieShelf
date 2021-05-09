@@ -53,6 +53,3 @@ class MovieCommentsLike(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     comment_id = db.Column(db.Integer, nullable = False)
     comment_liked_by_user_id = db.Column(db.Integer, nullable = False)
-    
-
-
