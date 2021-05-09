@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import {Comment, Form, Feed, Button, Segment} from 'semantic-ui-react';
+import {Comment, Form, Feed, Button, Segment, Image} from 'semantic-ui-react';
 import useChat from '../Components/WebSocket';
 import {useRouter} from 'next/router';
 import WithAuth from '../Services/WithAuth';
@@ -23,18 +23,19 @@ const ChatRoom = (props) => {
     <div className="chat-room-container">
       <h1 className="room-name">Messages - Please Keep it Appropriate :)</h1>
       <div className="messages-container">
-        <ul style = {{"list-style-type": "none"}} className="messages-list">
+        <ul style = {{"listStyleType": "none"}} className="messages-list">
           {messages.map((message, i) => (
+            
             message.ownedByCurrentUser ? 
             <li
               key={i}
               style = {{"color" : "black"}}
-            > <b>{message.message.username}: </b>{message.message.body}</li>
+            > <Image size = "mini" src={`https://avatars.dicebear.com/api/human/${message.avatar}.svg`} /><b>{message.message.username}: </b>{message.message.body}</li>
             : 
             <li
               key={i}
               style = {{"color": "red"}}
-            > <b>{message.message.username}: </b>{message.message.body}
+            ><Image size = "mini" src={`https://avatars.dicebear.com/api/human/${message.avatar}.svg`} /> <b>{message.message.username}: </b>{message.message.body}
             </li>
           ))}
         </ul>

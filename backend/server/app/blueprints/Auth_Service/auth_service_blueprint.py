@@ -28,7 +28,6 @@ def login():
         try:
             auth, details = user.authenticate(password)
             if (auth != False):
-                print(details)
                 return details
         except Exception as e:
             return {"Error", 500}, 500 #server error
@@ -38,7 +37,6 @@ def login():
 
 @auth_service_blueprint.route("/register", methods = ["POST"])
 def register():
-    print(request.json)
     try:
         validate(request.json, schema = register_schema)
         if (request.json.get('username') == None or request.json.get('password') == None or request.json.get('email') == None):

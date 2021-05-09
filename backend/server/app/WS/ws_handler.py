@@ -9,5 +9,13 @@ ws_handler = Blueprint('ws_handler', __name__)
 @socketio.on("newChatMessage")
 def handle_event(message):
     print(message)
-    emit('newChatMessage', {'message': message}, broadcast = True)
+    avatar = User.query.filter_by(username = message["username"]).first().avatar
+    emit('newChatMessage', {'message': message, 'avatar': avatar}, broadcast = True)
+
+
+@socketio.on("disconnected")
+def handle_event(message):
+    avatar = User.query.filter_by(username = message["username"]).first().avatar
+    emit('newChatMessage', {'message': message, 'avatar': avatar}, broadcast = True)
+
 

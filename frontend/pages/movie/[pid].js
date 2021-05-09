@@ -9,7 +9,7 @@ import { route } from 'next/dist/next-server/server/router';
 const Movie = (props) => {
     const router = useRouter();
     const { pid } = router.query; //dynamic router id, function scope - handle use cases in potentially multiple useEffects
-    const {user} = useContext(UserContext);
+    const {user, signOutWithoutRedirect} = useContext(UserContext);
 
     const [movieDetails, setMovieDetails] = useState(null); //movieDetails contains the generic movieDetails
     const [actors, setActors] = useState([]); //actors we get from movieDetails - used to query more specific actor details
@@ -56,6 +56,11 @@ const Movie = (props) => {
       }
     }, [pid])
 
+    useEffect(() => {
+      if (user != undefined){
+        api.post("auth-check").then().then().catch(err => signOutWithoutRedirect());
+      }
+    })
 
       const addToWatchList = (e) => {
         api.post("/add-to-watch", {movieID: pid}).then(resp => resp).then(data => console.log(data)).catch(err => console.log(err));
@@ -126,7 +131,7 @@ const Movie = (props) => {
             </Segment> 
             : null}
           
-        
+      
     <Comment.Group>
     <Header as='h3' dividing>
       Comments
@@ -163,11 +168,15 @@ const Movie = (props) => {
         
 )
     : null }
+
+    {!user ? <h3>Sign In to Post a Comment</h3> :  
     <Form reply>
       <Form.TextArea value = {comment} onChange = {replyMessage}/>
       <Button content='Add Comment' labelPosition='left' icon='edit' primary onClick = {sendComment}/>
     </Form>
+    }
     </Comment.Group>
+    
     
         
           </Grid.Column>

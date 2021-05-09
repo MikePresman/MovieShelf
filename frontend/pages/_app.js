@@ -5,6 +5,7 @@ import UserContext from '../Components/Contexts/UserContext';
 import { useEffect, useState } from 'react';
 import { localStorageService } from '../Services/AxiosManager';
 import {useRouter} from 'next/router';
+import api from '../Services/AxiosManager';
 
 function MyApp({ Component, pageProps }) {
   const [user, setUser] = useState(undefined);
@@ -16,7 +17,7 @@ function MyApp({ Component, pageProps }) {
   useEffect(() => {
     if (localStorage.getItem("username")){
       setUser({username: localStorage.getItem("username"), user_id: localStorage.getItem("user_id")})
-    }  
+    }
   }, [])
   
   //initial signIn on login.js call
@@ -31,6 +32,12 @@ function MyApp({ Component, pageProps }) {
     setUser(undefined); 
     router.push('/');
   }
+
+  const signOutWithoutRedirect = () => {
+    localStorageService.clearToken();
+    localStorageService.removeUserDetails();
+    setUser(undefined); 
+  }
   
 
   //Implement this logic into /login which will populate a message saying you must login in order to access this page
@@ -41,7 +48,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-    <UserContext.Provider value = {{user:user, message: message, signIn: signIn, signOut: signOut, warningMessage: warningMessage}}>
+    <UserContext.Provider value = {{user:user, message: message, signIn: signIn, signOut: signOut, warningMessage: warningMessage, signOutWithoutRedirect : signOutWithoutRedirect}}>
         <Navigator/>
         <Component {...pageProps} />
     </UserContext.Provider>
