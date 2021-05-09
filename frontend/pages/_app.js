@@ -4,11 +4,13 @@ import Navigator from '../Components/Nav/Navigator';
 import UserContext from '../Components/Contexts/UserContext';
 import { useEffect, useState } from 'react';
 import { localStorageService } from '../Services/AxiosManager';
+import {useRouter} from 'next/router';
 
 function MyApp({ Component, pageProps }) {
   const [user, setUser] = useState(undefined);
   const [message, setMessage] = useState();
-
+  const router = useRouter();
+  
   //every time page is refreshed we check. Might need to make this check more secure
   //security-wise it's fine, but could show inconsistent data if client tampers with localStorage
   useEffect(() => {
@@ -27,6 +29,7 @@ function MyApp({ Component, pageProps }) {
     localStorageService.clearToken();
     localStorageService.removeUserDetails();
     setUser(undefined); 
+    router.push('/');
   }
   
 

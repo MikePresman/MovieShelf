@@ -22,6 +22,7 @@ const Navigator = () => {
                 router.push("/");
                 break;
             case "Messages":
+                router.push('/message-center')
                 break;
             case "Profile":
                 router.push(`/profile/${user.username}/`)

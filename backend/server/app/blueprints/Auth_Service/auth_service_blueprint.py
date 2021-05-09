@@ -28,6 +28,7 @@ def login():
         try:
             auth, details = user.authenticate(password)
             if (auth != False):
+                print(details)
                 return details
         except Exception as e:
             return {"Error", 500}, 500 #server error

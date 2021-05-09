@@ -37,13 +37,13 @@ const profile = () => {
         <Grid.Column>
           <Image
           size = "small"
-            fluid
             label={{ as: 'a', corner: 'left', icon: 'save' }}
             src={`https://avatars.dicebear.com/api/human/${avatarSeed}.svg`}
             onClick = {saveAvatar}
           />
+          <Grid.Row>
           <Button size = "small" onClick = {generateNewSeed}>Generate New Avatar</Button>
-          
+          </Grid.Row>
         </Grid.Column>
         </Grid>    
     );

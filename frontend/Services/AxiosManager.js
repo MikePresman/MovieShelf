@@ -109,7 +109,8 @@ instance.interceptors.response.use((response) => {
         originalRequest._retry = true;
         const refreshToken = localStorageService.getRefreshToken();
         return fetch("http://localhost:5000/token", {method: 'POST', headers: {Authorization: 'Bearer ' + refreshToken}}).then(resp => resp.json()).then(data => {
-            localStorageService.setToken(data);
+        console.log("Token Set : " + token);
+        localStorageService.setToken(data);
             return instance(originalRequest); //finish handling original stuff
         });
     }

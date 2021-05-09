@@ -1,10 +1,11 @@
+import { Router, useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { Form, Segment, Grid, Button, Message, Divider} from 'semantic-ui-react';
-
 
 const register = () => {
     const [error, setError] = useState([false, '']);
     const [formData, setFormData] = useState({username: '', password: '', email: '', confirmPassword: '' });
+    const Router = useRouter();
     //setup error for 1) email address already taken, username already taken, passwords don't match
 
 
@@ -36,7 +37,7 @@ const register = () => {
                 setError([true], "Server Error")
 
             
-            }).then(data => console.log(data)).catch(err => console.log(err));
+            }).then(data => {console.log(data); Router.push('/login')}).catch(err => console.log(err));
     
         
     }

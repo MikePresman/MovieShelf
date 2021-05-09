@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
-import {Comment, Form, Feed, Button} from 'semantic-ui-react';
-import useChat from '../../Components/sockettest';
+import {Comment, Form, Feed, Button, Segment} from 'semantic-ui-react';
+import useChat from '../Components/WebSocket';
 import {useRouter} from 'next/router';
+import WithAuth from '../Services/WithAuth';
 
 const ChatRoom = (props) => {
   const router = useRouter();
@@ -12,7 +13,6 @@ const ChatRoom = (props) => {
   const handleNewMessageChange = (event) => {
     setNewMessage(event.target.value);
   };
-
   const handleSendMessage = () => {
     sendMessage(newMessage);
     setNewMessage("");
@@ -21,29 +21,34 @@ const ChatRoom = (props) => {
 
   return (
     <div className="chat-room-container">
-      <h1 className="room-name">Room: {1}</h1>
+      <h1 className="room-name">Messages - Please Keep it Appropriate :)</h1>
       <div className="messages-container">
-        <ol className="messages-list">
+        <ul style = {{"list-style-type": "none"}} className="messages-list">
           {messages.map((message, i) => (
+            message.ownedByCurrentUser ? 
             <li
               key={i}
-              className={`message-item ${
-                message.message.ownedByCurrentUser ? "my-message" : "received-message"
-              }`}
-            >
-              {message.message.body}
+              style = {{"color" : "black"}}
+            > <b>{message.message.username}: </b>{message.message.body}</li>
+            : 
+            <li
+              key={i}
+              style = {{"color": "red"}}
+            > <b>{message.message.username}: </b>{message.message.body}
             </li>
           ))}
-        </ol>
+        </ul>
       </div>
+      <Segment>
       <Form reply>
       <Form.TextArea onChange = {handleNewMessageChange} value = {newMessage} />
         <Button content='Add Reply' labelPosition='left' icon='edit' primary onClick = {handleSendMessage} />
     </Form>
+    </Segment>
 
       
     </div>
   );
 };
 
-export default ChatRoom;
+export default WithAuth(ChatRoom);

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Container, Grid, Image, Segment, Label, Header, Icon, Input } from 'semantic-ui-react'
+import { Container, Grid, Image, Segment, Label, Header, Icon, Input, Button } from 'semantic-ui-react'
 import UserContext from '../Contexts/UserContext';
 import api from '../../Services/AxiosManager';
 
@@ -10,6 +10,7 @@ const Explore = () => {
     const [moviesToWatch, setMoviesToWatch] = useState()
     const [dummy, setDummy] = useState();
     
+
     async function getMoviesData(moviesData){
      let moviesToWatch = moviesData.moviesToWatchList.map(movie_id => 
              fetch(`https://api.themoviedb.org/3/movie/${movie_id}?api_key=454a5f6a555d21549c86c51fa91f0a1a`)
@@ -83,6 +84,7 @@ const Explore = () => {
 
         </Segment> : null} 
         </Container>
+
         </>
 
         );
