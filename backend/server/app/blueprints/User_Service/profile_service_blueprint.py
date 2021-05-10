@@ -17,7 +17,8 @@ def get_avatar():
     return {"avatar": profile.avatar}, 200
 
 
-@profile_service_blueprint.route("/avatar", methods = ["POST"])
+
+@profile_service_blueprint.route("/set-avatar", methods = ["POST"])
 @jwt_required()
 def set_avatar():
     try:
@@ -31,3 +32,5 @@ def set_avatar():
     profile.avatar = seed
     db.session.commit()
     return {"Success": 200}, 200
+
+
